@@ -1,0 +1,22 @@
+{
+  "name": "harsh-malviya-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "mongoose": "^9.9.5",
+    "nodemailer": "^10.0.1",
+    "validator": "^13.15.35"
+  }
+}
