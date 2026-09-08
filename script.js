@@ -1,375 +1,3 @@
-/* =========================================
-   CURSOR GLOW
-========================================= */
-
-const cursorGlow =
-    document.querySelector(".cursor-glow");
-
-document.addEventListener("mousemove", (e) => {
-
-    cursorGlow.style.left =
-        e.clientX + "px";
-
-    cursorGlow.style.top =
-        e.clientY + "px";
-
-});
-
-
-
-/* =========================================
-   TYPING ANIMATION
-========================================= */
-
-const typingText =
-    document.getElementById("typingText");
-
-const words = [
-
-    "FULL STACK DEVELOPER",
-    "WEB DEVELOPER",
-    "PROBLEM SOLVER",
-    "TECH ENTHUSIAST"
-
-];
-
-let wordIndex = 0;
-let charIndex = 0;
-let deleting = false;
-
-function typeEffect() {
-
-    const currentWord =
-        words[wordIndex];
-
-    if (!deleting) {
-
-        typingText.textContent =
-            currentWord.substring(
-                0,
-                charIndex + 1
-            );
-
-        charIndex++;
-
-        if (
-            charIndex ===
-            currentWord.length
-        ) {
-
-            deleting = true;
-
-            setTimeout(
-                typeEffect,
-                1700
-            );
-
-            return;
-        }
-
-    } else {
-
-        typingText.textContent =
-            currentWord.substring(
-                0,
-                charIndex - 1
-            );
-
-        charIndex--;
-
-        if (charIndex === 0) {
-
-            deleting = false;
-
-            wordIndex++;
-
-            if (
-                wordIndex >=
-                words.length
-            ) {
-
-                wordIndex = 0;
-
-            }
-
-        }
-
-    }
-
-    setTimeout(
-        typeEffect,
-        deleting
-            ? 45
-            : 85
-    );
-
-}
-
-typeEffect();
-
-
-
-/* =========================================
-   SCROLL REVEAL
-========================================= */
-
-const revealElements =
-    document.querySelectorAll(
-        ".reveal"
-    );
-
-const revealObserver =
-    new IntersectionObserver(
-
-        (entries) => {
-
-            entries.forEach(
-                (entry) => {
-
-                    if (
-                        entry.isIntersecting
-                    ) {
-
-                        entry.target.classList.add(
-                            "show"
-                        );
-
-                    }
-
-                }
-            );
-
-        },
-
-        {
-            threshold: 0.12
-        }
-
-    );
-
-revealElements.forEach(
-    (element) => {
-
-        revealObserver.observe(
-            element
-        );
-
-    }
-);
-
-
-
-/* =========================================
-   ACTIVE NAVIGATION
-========================================= */
-
-const sections =
-    document.querySelectorAll(
-        "section"
-    );
-
-const navLinks =
-    document.querySelectorAll(
-        ".nav-link"
-    );
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        let current = "";
-
-        sections.forEach(
-            (section) => {
-
-                const sectionTop =
-                    section.offsetTop - 180;
-
-                if (
-                    window.scrollY >=
-                    sectionTop
-                ) {
-
-                    current =
-                        section.getAttribute(
-                            "id"
-                        );
-
-                }
-
-            }
-        );
-
-        navLinks.forEach(
-            (link) => {
-
-                link.classList.remove(
-                    "active"
-                );
-
-                if (
-                    link.getAttribute(
-                        "href"
-                    ) ===
-                    "#" + current
-                ) {
-
-                    link.classList.add(
-                        "active"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================
-   TERMINAL BUTTON
-========================================= */
-
-const terminalButton =
-    document.querySelector(
-        ".terminal-btn"
-    );
-
-terminalButton.addEventListener(
-    "click",
-    () => {
-
-        document
-            .querySelector(
-                ".terminal-card"
-            )
-            .scrollIntoView({
-
-                behavior: "smooth"
-
-            });
-
-    }
-);
-
-
-
-/* =========================================
-   THEME BUTTON
-========================================= */
-
-const themeButton =
-    document.getElementById(
-        "themeBtn"
-    );
-
-themeButton.addEventListener(
-    "click",
-    () => {
-
-        document.body.classList.toggle(
-            "light-mode"
-        );
-
-    }
-);
-
-
-
-/* =========================================
-   PROJECT CARD MOUSE EFFECT
-========================================= */
-
-const cards =
-    document.querySelectorAll(
-        ".project-card, .skill, .certificate-card"
-    );
-
-cards.forEach(
-    (card) => {
-
-        card.addEventListener(
-            "mousemove",
-            (e) => {
-
-                const rect =
-                    card.getBoundingClientRect();
-
-                const x =
-                    e.clientX -
-                    rect.left;
-
-                const y =
-                    e.clientY -
-                    rect.top;
-
-                card.style.background =
-                    `radial-gradient(
-                        circle at ${x}px ${y}px,
-                        rgba(0,220,255,.08),
-                        rgba(7,13,18,.7) 45%
-                    )`;
-
-            }
-        );
-
-        card.addEventListener(
-            "mouseleave",
-            () => {
-
-                card.style.background =
-                    "rgba(7,13,18,.7)";
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================
-   BUTTON CLICK EFFECT
-========================================= */
-
-const buttons =
-    document.querySelectorAll(
-        ".primary-btn, .secondary-btn"
-    );
-
-buttons.forEach(
-    (button) => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                button.style.transform =
-                    "scale(.97)";
-
-                setTimeout(
-                    () => {
-
-                        button.style.transform =
-                            "";
-
-                    },
-                    120
-                );
-
-            }
-        );
-
-    }
-);
-
-
-/* =========================================
-   CONTACT FORM → MONGODB
-========================================= */
-
 const contactForm =
     document.getElementById(
         "contactForm"
@@ -411,7 +39,10 @@ contactForm.addEventListener(
             ).value.trim();
 
 
-        // Basic validation
+        // =========================================
+        // BASIC VALIDATION
+        // =========================================
+
         if (
             !name ||
             !email ||
@@ -425,7 +56,10 @@ contactForm.addEventListener(
         }
 
 
-        // Disable button while sending
+        // =========================================
+        // DISABLE BUTTON WHILE SENDING
+        // =========================================
+
         sendButton.disabled = true;
 
         sendButton.innerHTML =
@@ -434,9 +68,13 @@ contactForm.addEventListener(
 
         try {
 
+            // =====================================
+            // SEND DATA TO LIVE RENDER BACKEND
+            // =====================================
+
             const response =
                 await fetch(
-                    "http://localhost:5000/api/contact",
+                    "https://harsh-malviya-portfolio-backend.onrender.com/api/contact",
                     {
                         method: "POST",
 
@@ -458,6 +96,10 @@ contactForm.addEventListener(
                 await response.json();
 
 
+            // =====================================
+            // SUCCESS
+            // =====================================
+
             if (data.success) {
 
                 formStatus.textContent =
@@ -466,10 +108,17 @@ contactForm.addEventListener(
                 contactForm.reset();
 
                 setTimeout(() => {
+
                     formStatus.textContent = "";
-                }, 3000);   
+
+                }, 3000);
+
 
             } else {
+
+                // =================================
+                // BACKEND ERROR
+                // =================================
 
                 formStatus.textContent =
                     data.message ||
@@ -479,6 +128,10 @@ contactForm.addEventListener(
 
 
         } catch (error) {
+
+            // =====================================
+            // SERVER CONNECTION ERROR
+            // =====================================
 
             console.error(
                 "Contact Form Error:",
@@ -491,7 +144,10 @@ contactForm.addEventListener(
         }
 
 
-        // Enable button again
+        // =========================================
+        // ENABLE BUTTON AGAIN
+        // =========================================
+
         sendButton.disabled = false;
 
         sendButton.innerHTML =
