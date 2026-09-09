@@ -1,3 +1,178 @@
+// =========================================
+// PORTFOLIO MAIN SCRIPT
+// =========================================
+
+
+// =========================================
+// REVEAL ANIMATION
+// =========================================
+
+const revealElements =
+    document.querySelectorAll(".reveal");
+
+const revealObserver =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                    revealObserver.unobserve(
+                        entry.target
+                    );
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12
+        }
+    );
+
+
+revealElements.forEach((element) => {
+
+    revealObserver.observe(element);
+
+});
+
+
+// =========================================
+// CURSOR GLOW
+// =========================================
+
+const cursorGlow =
+    document.querySelector(".cursor-glow");
+
+
+if (cursorGlow) {
+
+    document.addEventListener(
+        "mousemove",
+        (e) => {
+
+            cursorGlow.style.left =
+                e.clientX + "px";
+
+            cursorGlow.style.top =
+                e.clientY + "px";
+
+        }
+    );
+
+}
+
+
+// =========================================
+// NAVBAR ACTIVE LINK
+// =========================================
+
+const sections =
+    document.querySelectorAll("section[id]");
+
+const navLinks =
+    document.querySelectorAll(".nav-link");
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        let currentSection = "";
+
+        sections.forEach((section) => {
+
+            const sectionTop =
+                section.offsetTop - 180;
+
+            const sectionHeight =
+                section.offsetHeight;
+
+            if (
+                window.scrollY >= sectionTop &&
+                window.scrollY <
+                    sectionTop + sectionHeight
+            ) {
+
+                currentSection =
+                    section.getAttribute("id");
+
+            }
+
+        });
+
+
+        navLinks.forEach((link) => {
+
+            link.classList.remove("active");
+
+            const href =
+                link.getAttribute("href");
+
+            if (
+                href ===
+                "#" + currentSection
+            ) {
+
+                link.classList.add("active");
+
+            }
+
+        });
+
+    }
+);
+
+
+// =========================================
+// SMOOTH NAVIGATION
+// =========================================
+
+navLinks.forEach((link) => {
+
+    link.addEventListener(
+        "click",
+        (e) => {
+
+            const targetId =
+                link.getAttribute("href");
+
+            if (
+                !targetId ||
+                targetId === "#"
+            ) {
+                return;
+            }
+
+            const target =
+                document.querySelector(
+                    targetId
+                );
+
+            if (target) {
+
+                e.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+    );
+
+});
+
+
+// =========================================
+// CONTACT FORM
+// =========================================
+
 const contactForm =
     document.getElementById(
         "contactForm"
@@ -14,144 +189,172 @@ const sendButton =
     );
 
 
-contactForm.addEventListener(
-    "submit",
-    async (e) => {
+if (
+    contactForm &&
+    formStatus &&
+    sendButton
+) {
 
-        e.preventDefault();
+    contactForm.addEventListener(
+        "submit",
+        async (e) => {
 
-        formStatus.textContent = "";
-        formStatus.className = "form-status";
-
-        const name =
-            document.getElementById(
-                "name"
-            ).value.trim();
-
-        const email =
-            document.getElementById(
-                "email"
-            ).value.trim();
-
-        const message =
-            document.getElementById(
-                "message"
-            ).value.trim();
+            e.preventDefault();
 
 
-        // =========================================
-        // BASIC VALIDATION
-        // =========================================
+            formStatus.textContent = "";
 
-        if (
-            !name ||
-            !email ||
-            !message
-        ) {
-
-            formStatus.textContent =
-                "Please fill all fields.";
-
-            return;
-        }
+            formStatus.className =
+                "form-status";
 
 
-        // =========================================
-        // DISABLE BUTTON WHILE SENDING
-        // =========================================
+            const name =
+                document.getElementById(
+                    "name"
+                ).value.trim();
 
-        sendButton.disabled = true;
+            const email =
+                document.getElementById(
+                    "email"
+                ).value.trim();
 
-        sendButton.innerHTML =
-            '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            const message =
+                document.getElementById(
+                    "message"
+                ).value.trim();
 
-
-        try {
 
             // =====================================
-            // SEND DATA TO LIVE RENDER BACKEND
+            // BASIC VALIDATION
             // =====================================
 
-            const response =
-                await fetch(
-                    "https://harsh-malviya-portfolio-backend.onrender.com/api/contact",
-                    {
-                        method: "POST",
+            if (
+                !name ||
+                !email ||
+                !message
+            ) {
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                formStatus.textContent =
+                    "Please fill all fields.";
 
-                        body: JSON.stringify({
-                            name,
-                            email,
-                            message
-                        })
-                    }
+                formStatus.classList.add(
+                    "error"
                 );
 
-
-            const data =
-                await response.json();
-
-
-            // =====================================
-            // SUCCESS
-            // =====================================
-
-            if (data.success) {
-
-                formStatus.textContent =
-                    "Message sent successfully!";
-
-                contactForm.reset();
-
-                setTimeout(() => {
-
-                    formStatus.textContent = "";
-
-                }, 3000);
-
-
-            } else {
-
-                // =================================
-                // BACKEND ERROR
-                // =================================
-
-                formStatus.textContent =
-                    data.message ||
-                    "Failed to send message.";
+                return;
 
             }
 
 
-        } catch (error) {
-
             // =====================================
-            // SERVER CONNECTION ERROR
+            // DISABLE BUTTON
             // =====================================
 
-            console.error(
-                "Contact Form Error:",
-                error
-            );
+            sendButton.disabled = true;
 
-            formStatus.textContent =
-                "Server connection failed.";
+            sendButton.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+
+            try {
+
+                // =================================
+                // LIVE RENDER BACKEND
+                // =================================
+
+                const response =
+                    await fetch(
+                        "https://harsh-malviya-portfolio-backend.onrender.com/api/contact",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    name,
+                                    email,
+                                    message
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // =================================
+                // SUCCESS
+                // =================================
+
+                if (data.success) {
+
+                    formStatus.textContent =
+                        "Message sent successfully!";
+
+                    formStatus.classList.add(
+                        "success"
+                    );
+
+                    contactForm.reset();
+
+
+                    setTimeout(() => {
+
+                        formStatus.textContent =
+                            "";
+
+                        formStatus.className =
+                            "form-status";
+
+                    }, 3000);
+
+
+                } else {
+
+                    formStatus.textContent =
+                        data.message ||
+                        "Failed to send message.";
+
+                    formStatus.classList.add(
+                        "error"
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Contact Form Error:",
+                    error
+                );
+
+
+                formStatus.textContent =
+                    "Server connection failed.";
+
+                formStatus.classList.add(
+                    "error"
+                );
+
+            }
+
+
+            // =================================
+            // ENABLE BUTTON
+            // =================================
+
+            sendButton.disabled = false;
+
+            sendButton.innerHTML =
+                '<i class="fa-solid fa-paper-plane"></i> Send Message';
 
         }
+    );
 
-
-        // =========================================
-        // ENABLE BUTTON AGAIN
-        // =========================================
-
-        sendButton.disabled = false;
-
-        sendButton.innerHTML =
-            '<i class="fa-solid fa-paper-plane"></i> Send Message';
-
-    }
-);
+}
