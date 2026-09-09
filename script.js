@@ -23,6 +23,7 @@ const revealObserver =
                     revealObserver.unobserve(
                         entry.target
                     );
+
                 }
 
             });
@@ -145,13 +146,17 @@ navLinks.forEach((link) => {
                 !targetId ||
                 targetId === "#"
             ) {
+
                 return;
+
             }
+
 
             const target =
                 document.querySelector(
                     targetId
                 );
+
 
             if (target) {
 
@@ -213,10 +218,12 @@ if (
                     "name"
                 ).value.trim();
 
+
             const email =
                 document.getElementById(
                     "email"
                 ).value.trim();
+
 
             const message =
                 document.getElementById(
@@ -356,5 +363,50 @@ if (
 
         }
     );
+
+}
+
+
+// =========================================
+// INDIAN WELCOME INTRO
+// =========================================
+
+function startIntro() {
+
+    const introScreen =
+        document.getElementById("introScreen");
+
+    if (!introScreen) {
+        return;
+    }
+
+    setTimeout(() => {
+
+        introScreen.classList.add("hide");
+
+        setTimeout(() => {
+
+            introScreen.style.display = "none";
+
+            if (introScreen.parentNode) {
+                introScreen.remove();
+            }
+
+        }, 1000);
+
+    }, 5000);
+}
+
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        startIntro
+    );
+
+} else {
+
+    startIntro();
 
 }

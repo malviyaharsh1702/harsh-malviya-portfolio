@@ -1676,13 +1676,21 @@ footer {
         ),
         #03070b;
 
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
     transition:
         opacity .9s cubic-bezier(.4,0,.2,1),
-        visibility .9s;
+        visibility .9s cubic-bezier(.4,0,.2,1);
 }
 
 
-/* Rotating background energy */
+/* =========================================
+   ROTATING BACKGROUND ENERGY
+========================================= */
 
 .intro-screen::before {
     content: "";
@@ -1711,7 +1719,9 @@ footer {
 }
 
 
-/* Central pulse */
+/* =========================================
+   CENTRAL PULSE
+========================================= */
 
 .intro-screen::after {
     content: "";
@@ -1893,7 +1903,6 @@ footer {
     position: relative;
 
     width: 115px;
-
     height: 115px;
 
     border:
@@ -1910,23 +1919,25 @@ footer {
 
     animation:
         chakraAppear
-        1s
+        1.4s
         cubic-bezier(.16,1,.3,1)
         forwards,
         chakraRotate
-        8s
+        12s
         linear
         infinite
-        1s,
+        1.4s,
         chakraGlow
-        2s
+        3s
         ease-in-out
         infinite
-        1.2s;
+        1.6s;
 }
 
 
-/* 24-spoke effect */
+/* =========================================
+   CHAKRA SPOKES
+========================================= */
 
 .intro-chakra::before {
     content: "";
@@ -1970,7 +1981,9 @@ footer {
 }
 
 
-/* Inner ring */
+/* =========================================
+   INNER RING
+========================================= */
 
 .intro-chakra::after {
     content: "";
@@ -1993,7 +2006,9 @@ footer {
 }
 
 
-/* Chakra center */
+/* =========================================
+   CHAKRA CENTER
+========================================= */
 
 .chakra-center {
     position: absolute;
@@ -2278,19 +2293,21 @@ footer {
 
     animation:
         namastePremiumReveal
-        1.2s
+        1.6s
         cubic-bezier(.16,1,.3,1)
         forwards
-        1s,
+        1.2s,
         namasteGlowPremium
-        3s
+        4s
         ease-in-out
         infinite
-        2.5s;
+        3s;
 }
 
 
-/* Namaste shine */
+/* =========================================
+   NAMASTE SHINE
+========================================= */
 
 .namaste-text::before {
     content: "";
@@ -2327,7 +2344,9 @@ footer {
 }
 
 
-/* Namaste underline */
+/* =========================================
+   NAMASTE UNDERLINE
+========================================= */
 
 .namaste-text::after {
     content: "";
@@ -2358,7 +2377,6 @@ footer {
     box-shadow:
         0 0 12px
         rgba(255,153,51,.4),
-
         0 0 20px
         rgba(19,136,8,.25);
 
@@ -2497,10 +2515,10 @@ footer {
 
     animation:
         welcomeReveal
-        .9s
+        1.2s
         ease
         forwards
-        1.45s;
+        1.8s;
 }
 
 @keyframes welcomeReveal {
@@ -2549,10 +2567,10 @@ footer {
 
     animation:
         nameReveal
-        1s
+        1.3s
         cubic-bezier(.16,1,.3,1)
         forwards
-        1.65s;
+        2.1s;
 }
 
 @keyframes nameReveal {
@@ -2598,10 +2616,10 @@ footer {
 
     animation:
         roleReveal
-        1s
+        1.2s
         ease
         forwards
-        1.9s;
+        2.5s;
 }
 
 @keyframes roleReveal {
@@ -2631,16 +2649,24 @@ footer {
 ========================================= */
 
 .intro-screen.hide {
-    opacity: 0;
+    opacity: 0 !important;
 
-    visibility: hidden;
+    visibility: hidden !important;
 
-    pointer-events: none;
+    pointer-events: none !important;
+
+    z-index: -1 !important;
 
     transition:
         opacity .9s
         cubic-bezier(.4,0,.2,1),
-        visibility .9s;
+        visibility .9s
+        cubic-bezier(.4,0,.2,1);
+}
+
+.intro-screen.hide .intro-content,
+.intro-screen.hide .intro-tricolor {
+    pointer-events: none;
 }
 
 
@@ -2945,7 +2971,9 @@ footer {
     }
 
 
-    /* INTRO MOBILE */
+    /* =====================================
+       INTRO MOBILE
+    ===================================== */
 
     .intro-screen::after {
         width: 300px;
@@ -3001,61 +3029,11 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .intro-screen *,
-    .intro-screen {
+    .intro-screen * {
         animation: none !important;
-
-        transition: none !important;
     }
-}
-/* =========================================
-   SLOWER INTRO ANIMATION
-========================================= */
 
-.intro-chakra {
-    animation:
-        chakraAppear 1.4s cubic-bezier(.16,1,.3,1) forwards,
-        chakraRotate 12s linear infinite 1.4s,
-        chakraGlow 3s ease-in-out infinite 1.6s;
-}
-
-.namaste-text {
-    animation:
-        namastePremiumReveal
-        1.6s
-        cubic-bezier(.16,1,.3,1)
-        forwards
-        1.2s,
-        namasteGlowPremium
-        4s
-        ease-in-out
-        infinite
-        3s;
-}
-
-.intro-welcome {
-    animation:
-        welcomeReveal
-        1.2s
-        ease
-        forwards
-        1.8s;
-}
-
-.intro-name {
-    animation:
-        nameReveal
-        1.3s
-        cubic-bezier(.16,1,.3,1)
-        forwards
-        2.1s;
-}
-
-.intro-role {
-    animation:
-        roleReveal
-        1.2s
-        ease
-        forwards
-        2.5s;
+    .intro-screen {
+        transition: opacity .5s ease !important;
+    }
 }
