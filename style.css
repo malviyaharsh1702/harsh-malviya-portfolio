@@ -3024,6 +3024,47 @@ footer {
 
 
 /* =========================================
+   PERFECT INTRO → DASHBOARD CROSSFADE
+========================================= */
+
+/*
+   IMPORTANT:
+   Dashboard remains completely hidden
+   while the intro is running.
+*/
+
+body > .navbar,
+body > .hero,
+body > .section,
+body > footer {
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity .9s cubic-bezier(.4, 0, .2, 1),
+        visibility .9s ease;
+}
+
+
+/*
+   At exactly 5 seconds:
+   Intro starts fading out
+   AND
+   Dashboard starts fading in.
+*/
+
+body.intro-done > .navbar,
+body.intro-done > .hero,
+body.intro-done > .section,
+body.intro-done > footer {
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+/* =========================================
    REDUCED MOTION
 ========================================= */
 
@@ -3034,6 +3075,15 @@ footer {
     }
 
     .intro-screen {
-        transition: opacity .5s ease !important;
+        transition:
+            opacity .5s ease !important;
+    }
+
+    body > .navbar,
+    body > .hero,
+    body > .section,
+    body > footer {
+        transition:
+            opacity .5s ease !important;
     }
 }

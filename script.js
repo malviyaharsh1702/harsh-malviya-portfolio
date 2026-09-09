@@ -370,39 +370,126 @@ if (
 // =========================================
 // INDIAN WELCOME INTRO
 // =========================================
+//
+// TIMELINE:
+//
+// 0.0s  → Intro visible
+// 5.0s  → Intro fade-out + Dashboard fade-in
+// 5.9s  → Intro removed
+//
+// Dashboard and intro transition start
+// at EXACTLY the same timestamp.
+// =========================================
 
 function startIntro() {
 
     const introScreen =
-        document.getElementById("introScreen");
+        document.getElementById(
+            "introScreen"
+        );
+
+
+    // =====================================
+    // SAFETY CHECK
+    // =====================================
 
     if (!introScreen) {
+
+        document.body.classList.remove(
+            "intro-active"
+        );
+
+        document.body.classList.add(
+            "intro-done"
+        );
+
         return;
+
     }
+
+
+    // =====================================
+    // KEEP DASHBOARD HIDDEN
+    // =====================================
+
+    document.body.classList.add(
+        "intro-active"
+    );
+
+
+    // =====================================
+    // EXACT INTRO → DASHBOARD SYNC
+    // =====================================
+
+    const INTRO_DURATION = 5000;
+
+    const FADE_DURATION = 900;
+
 
     setTimeout(() => {
 
-        introScreen.classList.add("hide");
+        // ---------------------------------
+        // SAME MOMENT
+        // ---------------------------------
+        // Dashboard starts appearing
+        // Intro starts disappearing
+        // ---------------------------------
+
+        document.body.classList.remove(
+            "intro-active"
+        );
+
+        document.body.classList.add(
+            "intro-done"
+        );
+
+
+        introScreen.classList.add(
+            "hide"
+        );
+
+
+        // ---------------------------------
+        // Wait for fade animation to finish
+        // ---------------------------------
 
         setTimeout(() => {
 
-            introScreen.style.display = "none";
+            introScreen.style.display =
+                "none";
 
-            if (introScreen.parentNode) {
+
+            if (
+                introScreen.parentNode
+            ) {
+
                 introScreen.remove();
+
             }
 
-        }, 1000);
+        }, FADE_DURATION);
 
-    }, 5000);
+
+    }, INTRO_DURATION);
+
 }
 
 
-if (document.readyState === "loading") {
+// =========================================
+// START INTRO AFTER DOM IS READY
+// =========================================
+
+if (
+    document.readyState ===
+    "loading"
+) {
 
     document.addEventListener(
         "DOMContentLoaded",
-        startIntro
+        startIntro,
+        {
+            once: true
+        }
     );
 
 } else {
